@@ -7,6 +7,10 @@ import java.io.Writer;
 public class Exercise {
 
     public boolean createFile(String fileName, String text) throws Exception {
+	if (fileName == null || text == null) {
+	    return false;
+	}
+
 	File file = new File("output/exercise/" + fileName);
 	boolean isFileCreated = file.createNewFile();
 	if (isFileCreated) {
@@ -30,8 +34,11 @@ public class Exercise {
 
 	    // 連番を付加してファイルを作成
 	    for (int i = 1; i < Integer.MAX_VALUE; i++) {
-		String newFileName = "output/exercise/"
-			+ fileNameWithoutExtension + "_" + i + extensionWithDot;
+		String newFileName = "output/exercise/";
+		newFileName += fileNameWithoutExtension;
+		newFileName += "_";
+		newFileName += i;
+		newFileName += extensionWithDot;
 		File newFile = new File(newFileName);
 		boolean isNewFileCreated = newFile.createNewFile();
 		if (isNewFileCreated) {

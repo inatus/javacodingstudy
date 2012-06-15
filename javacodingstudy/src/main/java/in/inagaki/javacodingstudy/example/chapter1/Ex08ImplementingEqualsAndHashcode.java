@@ -3,9 +3,6 @@ package in.inagaki.javacodingstudy.example.chapter1;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 public class Ex08ImplementingEqualsAndHashcode {
 
     /**
@@ -56,32 +53,62 @@ class Profile1 {
 
 }
 
-// よい例：equals()、hashcode()メソッドを実装しない
+// よい例：equals()、hashcode()メソッドを実装
 class Profile2 {
     private String name;
     private int age;
     private String city;
 
-    @Override
-    public boolean equals(Object paramObject) {
-	if (paramObject == null) {
-	    return false;
-	}
-	if (paramObject == this) {
-	    return true;
-	}
-	if (!(paramObject instanceof Profile2)) {
-	    return false;
-	}
-	Profile2 target = (Profile2) paramObject;
-	return new EqualsBuilder().append(name, target.name)
-		.append(age, target.age).append(city, target.city).isEquals();
-    }
-
+    /*
+     * (非 Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-	return new HashCodeBuilder().append(name).append(age).append(city)
-		.hashCode();
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + age;
+	result = prime * result + ((city == null) ? 0 : city.hashCode());
+	result = prime * result + ((name == null) ? 0 : name.hashCode());
+	return result;
+    }
+
+    /*
+     * (非 Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj) {
+	    return true;
+	}
+	if (obj == null) {
+	    return false;
+	}
+	if (!(obj instanceof Profile2)) {
+	    return false;
+	}
+	Profile2 other = (Profile2) obj;
+	if (age != other.age) {
+	    return false;
+	}
+	if (city == null) {
+	    if (other.city != null) {
+		return false;
+	    }
+	} else if (!city.equals(other.city)) {
+	    return false;
+	}
+	if (name == null) {
+	    if (other.name != null) {
+		return false;
+	    }
+	} else if (!name.equals(other.name)) {
+	    return false;
+	}
+	return true;
     }
 
     public Profile2(String name, int age, String city) {

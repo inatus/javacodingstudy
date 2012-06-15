@@ -22,7 +22,6 @@ public class Ex11CatchingExceptions {
 	obj.execute3("output/outputNotExist.txt");
 	System.out.println("execute3メソッド実行完了");
 	System.out.println("処理終了");
-
     }
 
     // だめな例1：例外をどこでもキャッチしない
@@ -36,7 +35,6 @@ public class Ex11CatchingExceptions {
 	if (input != null) {
 	    input.close();
 	}
-
     }
 
     // だめな例2：Exceptionをキャッチ、なにも処理しない
@@ -58,9 +56,7 @@ public class Ex11CatchingExceptions {
 		    // なにもしない
 		}
 	    }
-
 	}
-
     }
 
     // よい例：例外を具体的な型でキャッチし適切に処理する
@@ -74,23 +70,21 @@ public class Ex11CatchingExceptions {
 	    }
 	} catch (FileNotFoundException e) {
 	    e.printStackTrace();
-	    System.out.println("execute1メソッドで例外が発生：" + path + "が見つかりません");
+	    System.err.println("execute1メソッドで例外が発生：" + path + "が見つかりません");
 	} catch (IOException e) {
 	    e.printStackTrace();
-	    System.out.println("execute1メソッドで例外が発生：" + path + "の読み込みに失敗しました");
+	    System.err.println("execute1メソッドで例外が発生：" + path + "の読み込みに失敗しました");
 	} finally {
 	    if (input != null) {
 		try {
 		    input.close();
 		} catch (IOException e) {
 		    e.printStackTrace();
-		    System.out.println("execute1メソッドで例外が発生：" + path
+		    System.err.println("execute1メソッドで例外が発生：" + path
 			    + "の読み込みに失敗しました");
 		}
 	    }
-
 	}
-
     }
 
 }

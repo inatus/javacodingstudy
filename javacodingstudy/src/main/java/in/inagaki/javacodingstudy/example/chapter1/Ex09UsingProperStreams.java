@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 
@@ -201,6 +202,22 @@ public class Ex09UsingProperStreams {
 		}
 	    }
 
+	}
+
+	PrintWriter output5 = null;
+	try {
+	    output5 = new PrintWriter(new BufferedWriter(new FileWriter(
+		    "output/example/output5.txt")));
+	    output5.println(text);
+	    output5.flush();
+	} catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	} finally {
+	    if (output5 != null) {
+		output5.close();
+	    }
 	}
 
     }

@@ -1,9 +1,7 @@
-/**
- * 
- */
 package in.inagaki.javacodingstudy.exercise;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,7 +10,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ import org.junit.Test;
  * 
  */
 public class ExerciseTest {
-    private Exercise testObject = new Exercise();
+    private Exercise testObject;
 
     /**
      * テストクラス実行前にディレクトリのすべてのファイルを削除します。
@@ -46,7 +46,23 @@ public class ExerciseTest {
      */
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
-	FileUtils.cleanDirectory(new File("output/exercise"));
+	FileUtils.forceDeleteOnExit(new File("output/exercise"));
+    }
+
+    /**
+     * テストメソッド実行前にテスト対象オブジェクトを生成します。
+     */
+    @Before
+    public void setUp() {
+	testObject = new Exercise();
+    }
+
+    /**
+     * テストメソッド実行後にテスト対象オブジェクトを破棄します。
+     */
+    @After
+    public void tearDown() {
+	testObject = null;
     }
 
     /**
@@ -60,9 +76,10 @@ public class ExerciseTest {
      *             ファイルが存在しない場合
      * @throws IOException
      *             ファイルが読み込めない場合
+     * @throws IllegalAccessException
      */
     private void assertFile(String filePath, String expText)
-	    throws FileNotFoundException, IOException {
+	    throws FileNotFoundException, IOException, IllegalAccessException {
 	File createdFile = new File(filePath);
 	assertTrue(createdFile.exists());
 	BufferedReader reader = new BufferedReader(new FileReader(createdFile));
@@ -80,7 +97,7 @@ public class ExerciseTest {
      */
     @Test
     public void testCreateFile01() throws Exception {
-	testObject.createFile("sample.txt", "Sample Text");
+	assertTrue(testObject.createFile("sample.txt", "Sample Text"));
 	assertFile("output/exercise/sample.txt", "Sample Text");
     }
 
@@ -93,7 +110,7 @@ public class ExerciseTest {
      */
     @Test
     public void testCreateFile02() throws Exception {
-	testObject.createFile("sample.txt", "Sample Text2");
+	assertTrue(testObject.createFile("sample.txt", "Sample Text2"));
 	assertFile("output/exercise/sample.txt", "Sample Text");
 	assertFile("output/exercise/sample_1.txt", "Sample Text2");
     }
@@ -107,7 +124,7 @@ public class ExerciseTest {
      */
     @Test
     public void testCreateFile03() throws Exception {
-	testObject.createFile("sample.txt", "Sample Text3");
+	assertTrue(testObject.createFile("sample.txt", "Sample Text3"));
 	assertFile("output/exercise/sample.txt", "Sample Text");
 	assertFile("output/exercise/sample_1.txt", "Sample Text2");
 	assertFile("output/exercise/sample_2.txt", "Sample Text3");
@@ -121,7 +138,7 @@ public class ExerciseTest {
      */
     @Test
     public void testCreateFile04() throws Exception {
-	testObject.createFile("different.txt", "aaaaaaa");
+	assertTrue(testObject.createFile("different.txt", "aaaaaaa"));
 	assertFile("output/exercise/sample.txt", "Sample Text");
 	assertFile("output/exercise/sample_1.txt", "Sample Text2");
 	assertFile("output/exercise/sample_2.txt", "Sample Text3");
@@ -137,11 +154,45 @@ public class ExerciseTest {
      */
     @Test
     public void testCreateFile05() throws Exception {
-	testObject.createFile("different.txt", "bbbbbbb");
+	assertTrue(testObject.createFile("different.txt", "bbbbbbb"));
 	assertFile("output/exercise/sample.txt", "Sample Text");
 	assertFile("output/exercise/sample_1.txt", "Sample Text2");
 	assertFile("output/exercise/sample_2.txt", "Sample Text3");
 	assertFile("output/exercise/different.txt", "aaaaaaa");
 	assertFile("output/exercise/different_1.txt", "bbbbbbb");
     }
+
+    /**
+     * ファイル名がnullの場合にfalseを返すことをテストします。
+     * 
+     * @throws Exception
+     *             ファイル入出力に関するエラーが発生した場合
+     */
+    @Test
+    public void testCreateFile06() throws Exception {
+	assertTrue(!testObject.createFile(null, "aaaaaaa"));
+    }
+
+    /**
+     * 内容がnullの場合にfalseを返すことをテストします。
+     * 
+     * @throws Exception
+     *             ファイル入出力に関するエラーが発生した場合
+     */
+    @Test
+    public void testCreateFile07() throws Exception {
+	assertTrue(!testObject.createFile("different.txt", null));
+    }
+
+    /**
+     * ファイル名・内容が共にnullの場合にfalseを返すことをテストします。
+     * 
+     * @throws Exception
+     *             ファイル入出力に関するエラーが発生した場合
+     */
+    @Test
+    public void testCreateFile08() throws Exception {
+	assertTrue(!testObject.createFile(null, null));
+    }
+
 }
