@@ -31,7 +31,7 @@ public class Ex06AvoidingBoxing {
 	Integer val3 = integerList.get(0);
 	int tmp = val3.intValue(); // アンボクシング
 	tmp++;
-	val3 = new Integer(tmp); // ボクシング
+	val3 = Integer.valueOf(tmp); // ボクシング
 	System.out.println(val3);
 
 	// よい例の実際の処理
