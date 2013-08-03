@@ -36,9 +36,9 @@ public class Ex02ComparingStrings {
 	StringBuilder str5 = new StringBuilder("123");
 	String str6 = str5.toString();
 	if ("123".equals(str6)) {
-	    System.out.println("問題となるだめな例: true");
+	    System.out.println("問題とならないよい例: true");
 	} else {
-	    System.out.println("問題となるだめな例: false");
+	    System.out.println("問題とならないよい例: false");
 	}
     }
 }
