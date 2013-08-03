@@ -39,31 +39,19 @@ public class Ex11CatchingExceptions {
 
     // だめな例2：Exceptionをキャッチ、なにも処理しない
     public void execute2(String path) {
-	BufferedReader input = null;
-	try {
-	    input = new BufferedReader(new FileReader(path));
+	try (BufferedReader input = new BufferedReader(new FileReader(path))) {
 	    String line;
 	    while ((line = input.readLine()) != null) {
 		System.out.println(line);
 	    }
 	} catch (Exception e) {
 	    // なにもしない
-	} finally {
-	    if (input != null) {
-		try {
-		    input.close();
-		} catch (Exception e) {
-		    // なにもしない
-		}
-	    }
 	}
     }
 
     // よい例：例外を具体的な型でキャッチし適切に処理する
     public void execute1(String path) {
-	BufferedReader input = null;
-	try {
-	    input = new BufferedReader(new FileReader(path));
+	try (BufferedReader input = new BufferedReader(new FileReader(path))) {
 	    String line;
 	    while ((line = input.readLine()) != null) {
 		System.out.println(line);
@@ -74,16 +62,6 @@ public class Ex11CatchingExceptions {
 	} catch (IOException e) {
 	    e.printStackTrace();
 	    System.err.println("execute1メソッドで例外が発生：" + path + "の読み込みに失敗しました");
-	} finally {
-	    if (input != null) {
-		try {
-		    input.close();
-		} catch (IOException e) {
-		    e.printStackTrace();
-		    System.err.println("execute1メソッドで例外が発生：" + path
-			    + "の読み込みに失敗しました");
-		}
-	    }
 	}
     }
 

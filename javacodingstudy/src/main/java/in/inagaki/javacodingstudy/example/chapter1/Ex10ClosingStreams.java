@@ -50,6 +50,17 @@ public class Ex10ClosingStreams {
 	    }
 	}
 
+	// よい例：Java 7のtry-with-resources文を用いる
+	try (BufferedWriter output3 = new BufferedWriter(new FileWriter(
+		"output/example/output5.txt"))) {
+	    output3.write(text);
+	    output3.flush();
+	} catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+
     }
 
 }
